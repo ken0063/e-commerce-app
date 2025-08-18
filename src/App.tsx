@@ -1,11 +1,14 @@
 import { AbsoluteCenter } from '@chakra-ui/react'
-
+import { ColorModeToggleGroup } from './components/ui/color-mode'
 
 function App() {
-
-
   return (
-  <AbsoluteCenter>Hello world</AbsoluteCenter>
+    <>
+      <header>
+        <ColorModeToggleGroup />
+      </header>
+      <AbsoluteCenter>Hello world!!!!</AbsoluteCenter>
+    </>
   )
 }
 

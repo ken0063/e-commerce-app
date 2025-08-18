@@ -1,0 +1,11 @@
+dist
+node_modules
+*.log
+coverage
+.next
+out
+build
+.temp
+.tmp
+.DS_Store
+
