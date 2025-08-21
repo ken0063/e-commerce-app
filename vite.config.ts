@@ -1,4 +1,4 @@
-import { defineConfig, type Plugin } from 'vite'
+import { defineConfig, type PluginOption } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
@@ -6,7 +6,7 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 export default defineConfig(async () => {
   const analyze = process.env.BUNDLE_ANALYZE === '1'
 
-  const plugins: Plugin[] = [react(), tsconfigPaths()]
+  const plugins: PluginOption[] = [react(), tsconfigPaths()]
 
   if (analyze) {
     try {
@@ -17,13 +17,13 @@ export default defineConfig(async () => {
           open: boolean
           gzipSize: boolean
           brotliSize: boolean
-        }) => Plugin
+        }) => PluginOption
         default?: (options: {
           filename: string
           open: boolean
           gzipSize: boolean
           brotliSize: boolean
-        }) => Plugin
+        }) => PluginOption
       }
       const mod = (await import(moduleName)) as unknown as VisualizerModule
       const visualizerFn = mod.visualizer ?? mod.default
