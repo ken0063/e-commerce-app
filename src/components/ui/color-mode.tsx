@@ -78,28 +78,31 @@ export function ColorModeToggleGroup() {
       <HStack gap="1">
         <IconButton
           aria-label="Use light mode"
-          variant={isActive('light') ? 'solid' : 'ghost'}
+          variant={isActive('light') ? 'outline' : 'ghost'}
           size="sm"
           onClick={() => setColorMode('light')}
+          color="text"
         >
           <LuSun />
           <VisuallyHidden>Light</VisuallyHidden>
         </IconButton>
         <IconButton
           aria-label="Use dark mode"
-          variant={isActive('dark') ? 'solid' : 'ghost'}
+          variant={isActive('dark') ? 'outline' : 'ghost'}
           size="sm"
           onClick={() => setColorMode('dark')}
+          color="text"
         >
           <LuMoon />
           <VisuallyHidden>Dark</VisuallyHidden>
         </IconButton>
         <IconButton
           aria-label="Use system theme"
-          variant={isActive('system') ? 'solid' : 'ghost'}
+          variant={isActive('system') ? 'outline' : 'ghost'}
           size="sm"
           onClick={() => setColorMode('system')}
           title={`System (${resolvedColorMode})`}
+          color="text"
         >
           <LuLaptop />
           <VisuallyHidden>System</VisuallyHidden>
@@ -117,7 +120,6 @@ export const LightMode = React.forwardRef<HTMLSpanElement, SpanProps>(
         display="contents"
         className="chakra-theme light"
         colorPalette="gray"
-        colorScheme="light"
         ref={ref}
         {...props}
       />
@@ -132,7 +134,6 @@ export const DarkMode = React.forwardRef<HTMLSpanElement, SpanProps>(function Da
       display="contents"
       className="chakra-theme dark"
       colorPalette="gray"
-      colorScheme="dark"
       ref={ref}
       {...props}
     />

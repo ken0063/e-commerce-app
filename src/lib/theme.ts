@@ -9,42 +9,47 @@ const config = defineConfig({
         lg: { value: '960px' },
         xl: { value: '1200px' },
       },
+
+      // Using Chakra UI's built-in color palettes for a minimalist design
       colors: {
-        brand: {
-          '50': { value: '#f5faff' },
-          '100': { value: '#dceeff' },
-          '200': { value: '#b5dbff' },
-          '300': { value: '#8ac7ff' },
-          '400': { value: '#5ab3f7' },
-          '500': { value: '#3498db' },
-          '600': { value: '#2779bd' },
-          '700': { value: '#1b5b9a' },
-          '800': { value: '#124275' },
-          '900': { value: '#0b2a4f' },
+        // Primary brand color palette - Blue (professional, trustworthy)
+        primary: {
+          50: { value: '#eff6ff' },
+          100: { value: '#dbeafe' },
+          200: { value: '#bfdbfe' },
+          300: { value: '#93c5fd' },
+          400: { value: '#60a5fa' },
+          500: { value: '#3b82f6' },
+          600: { value: '#2563eb' },
+          700: { value: '#1d4ed8' },
+          800: { value: '#1e40af' },
+          900: { value: '#1e3a8a' },
         },
-        accent: {
-          '50': { value: '#fff5f7' },
-          '100': { value: '#fed7e2' },
-          '200': { value: '#fbb6ce' },
-          '300': { value: '#f687b3' },
-          '400': { value: '#ed64a6' },
-          '500': { value: '#d53f8c' },
-          '600': { value: '#b83280' },
-          '700': { value: '#97266d' },
-          '800': { value: '#702459' },
-          '900': { value: '#521b41' },
+        // Secondary accent palette - Green (success, positive actions)
+        secondary: {
+          50: { value: '#f0fdf4' },
+          100: { value: '#dcfce7' },
+          200: { value: '#bbf7d0' },
+          300: { value: '#86efac' },
+          400: { value: '#4ade80' },
+          500: { value: '#22c55e' },
+          600: { value: '#16a34a' },
+          700: { value: '#15803d' },
+          800: { value: '#166534' },
+          900: { value: '#14532d' },
         },
+        // Neutral grays for text and backgrounds
         neutral: {
-          '50': { value: '#fafafa' },
-          '100': { value: '#f4f4f5' },
-          '200': { value: '#e4e4e7' },
-          '300': { value: '#d4d4d8' },
-          '400': { value: '#a1a1aa' },
-          '500': { value: '#71717a' },
-          '600': { value: '#52525b' },
-          '700': { value: '#3f3f46' },
-          '800': { value: '#27272a' },
-          '900': { value: '#18181b' },
+          50: { value: '#f9fafb' },
+          100: { value: '#f3f4f6' },
+          200: { value: '#e5e7eb' },
+          300: { value: '#d1d5db' },
+          400: { value: '#9ca3af' },
+          500: { value: '#6b7280' },
+          600: { value: '#4b5563' },
+          700: { value: '#374151' },
+          800: { value: '#1f2937' },
+          900: { value: '#111827' },
         },
       },
       fonts: {
@@ -54,17 +59,34 @@ const config = defineConfig({
     },
     semanticTokens: {
       colors: {
+        // Background colors for light and dark modes
         bg: {
-          value: { base: '{colors.neutral.50}', _dark: '{colors.neutral.900}' },
+          default: { value: { base: 'white', _dark: '{colors.neutral.900}' } },
+          subtle: { value: { base: '{colors.neutral.50}', _dark: '{colors.neutral.800}' } },
+          muted: { value: { base: '{colors.neutral.100}', _dark: '{colors.neutral.700}' } },
         },
+        // Text colors
         text: {
-          value: { base: '{colors.neutral.800}', _dark: '{colors.neutral.100}' },
+          default: { value: { base: '{colors.neutral.900}', _dark: '{colors.neutral.50}' } },
+          muted: { value: { base: '{colors.neutral.600}', _dark: '{colors.neutral.400}' } },
+          subtle: { value: { base: '{colors.neutral.500}', _dark: '{colors.neutral.500}' } },
         },
-        brandColor: {
-          value: { base: '{colors.brand.500}', _dark: '{colors.brand.300}' },
+        // Primary brand color
+        brand: {
+          default: { value: { base: '{colors.primary.600}', _dark: '{colors.primary.400}' } },
+          emphasis: { value: { base: '{colors.primary.700}', _dark: '{colors.primary.300}' } },
+          subtle: { value: { base: '{colors.primary.50}', _dark: '{colors.primary.900}' } },
         },
-        accentColor: {
-          value: { base: '{colors.accent.500}', _dark: '{colors.accent.300}' },
+        // Secondary accent color
+        accent: {
+          default: { value: { base: '{colors.secondary.600}', _dark: '{colors.secondary.400}' } },
+          emphasis: { value: { base: '{colors.secondary.700}', _dark: '{colors.secondary.300}' } },
+          subtle: { value: { base: '{colors.secondary.50}', _dark: '{colors.secondary.900}' } },
+        },
+        // Border colors
+        border: {
+          default: { value: { base: '{colors.neutral.200}', _dark: '{colors.neutral.600}' } },
+          muted: { value: { base: '{colors.neutral.100}', _dark: '{colors.neutral.700}' } },
         },
       },
     },
@@ -73,6 +95,14 @@ const config = defineConfig({
         from: { transform: 'rotate(0deg)' },
         to: { transform: 'rotate(360deg)' },
       },
+    },
+  },
+  globalCss: {
+    'html, body': {
+      fontFamily: 'body',
+    },
+    'h1, h2, h3, h4, h5, h6': {
+      fontFamily: 'heading',
     },
   },
 })
