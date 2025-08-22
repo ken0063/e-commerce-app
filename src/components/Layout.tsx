@@ -1,4 +1,17 @@
-import { Box, Container, Flex, IconButton, Text, HStack, Button, Spacer } from '@chakra-ui/react'
+import {
+  Box,
+  Container,
+  Flex,
+  IconButton,
+  Text,
+  HStack,
+  Button,
+  Spacer,
+  useDisclosure,
+  Drawer,
+  Stack,
+  Separator,
+} from '@chakra-ui/react'
 import { Link, Outlet, useNavigate } from 'react-router-dom'
 import { FaShoppingCart, FaSearch, FaHeart } from 'react-icons/fa'
 import { IoMenu } from 'react-icons/io5'
@@ -15,6 +28,7 @@ export function Layout() {
   const [user, setUser] = useState<User | null>(null)
   const [cartItemCount, setCartItemCount] = useState(0)
   const navigate = useNavigate()
+  const mobileNav = useDisclosure()
 
   useEffect(() => {
     // Get initial user
@@ -158,13 +172,126 @@ export function Layout() {
               <ColorModeToggleGroup />
 
               {/* Mobile Menu */}
-              <IconButton aria-label="Menu" variant="ghost" display={{ base: 'flex', md: 'none' }}>
+              <IconButton
+                aria-label="Menu"
+                variant="ghost"
+                display={{ base: 'flex', md: 'none' }}
+                onClick={mobileNav.onOpen}
+              >
                 <IoMenu />
               </IconButton>
             </HStack>
           </Flex>
         </Container>
       </Box>
+
+      {/* Mobile Nav Drawer */}
+      <Drawer.Root
+        open={mobileNav.open}
+        onOpenChange={({ open }) => (open ? mobileNav.onOpen() : mobileNav.onClose())}
+      >
+        <Drawer.Backdrop />
+        <Drawer.Positioner>
+          <Drawer.Content>
+            <Drawer.CloseTrigger />
+            <Drawer.Header>Menu</Drawer.Header>
+            <Drawer.Body>
+              <Stack gap={4}>
+                <Button
+                  variant="ghost"
+                  onClick={() => {
+                    mobileNav.onClose()
+                    navigate('/products')
+                  }}
+                >
+                  Products
+                </Button>
+                <Button
+                  variant="ghost"
+                  onClick={() => {
+                    mobileNav.onClose()
+                    navigate('/categories')
+                  }}
+                >
+                  Categories
+                </Button>
+                <Button
+                  variant="ghost"
+                  onClick={() => {
+                    mobileNav.onClose()
+                    navigate('/deals')
+                  }}
+                >
+                  Deals
+                </Button>
+                <Separator />
+                {user ? (
+                  <>
+                    <Button
+                      variant="ghost"
+                      onClick={() => {
+                        mobileNav.onClose()
+                        navigate('/account')
+                      }}
+                    >
+                      My Account
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      onClick={() => {
+                        mobileNav.onClose()
+                        navigate('/orders')
+                      }}
+                    >
+                      Orders
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      onClick={() => {
+                        mobileNav.onClose()
+                        navigate('/addresses')
+                      }}
+                    >
+                      Addresses
+                    </Button>
+                    <Button variant="outline" colorPalette="brand" onClick={handleSignOut}>
+                      Sign Out
+                    </Button>
+                  </>
+                ) : (
+                  <Button
+                    colorPalette="brand"
+                    onClick={() => {
+                      mobileNav.onClose()
+                      navigate('/auth')
+                    }}
+                  >
+                    Sign In
+                  </Button>
+                )}
+                <Separator />
+                <Button
+                  variant="ghost"
+                  onClick={() => {
+                    mobileNav.onClose()
+                    navigate('/cart')
+                  }}
+                >
+                  <HStack gap={2}>
+                    <FaShoppingCart />
+                    <span>Cart</span>
+                    {cartItemCount > 0 && (
+                      <Badge colorPalette="brand" size="xs">
+                        {cartItemCount}
+                      </Badge>
+                    )}
+                  </HStack>
+                </Button>
+              </Stack>
+            </Drawer.Body>
+          </Drawer.Content>
+        </Drawer.Positioner>
+      </Drawer.Root>
 
       {/* Main Content */}
       <Box flex="1">

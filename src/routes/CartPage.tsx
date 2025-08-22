@@ -335,14 +335,18 @@ export function Component() {
             </Card.Body>
           </Card.Root>
         ) : (
-          <SimpleGrid columns={{ base: 1, lg: 3 }} gap={8}>
+          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap={{ base: 4, md: 6, lg: 8 }}>
             {/* Cart Items */}
             <Box gridColumn={{ base: '1', lg: 'span 2' }}>
               <VStack gap={4} align="stretch">
                 {cartItems.map((item) => (
                   <Card.Root key={item.id}>
                     <Card.Body>
-                      <HStack gap={4} align="start">
+                      <Flex
+                        gap={4}
+                        align={{ base: 'stretch', md: 'start' }}
+                        direction={{ base: 'column', md: 'row' }}
+                      >
                         {/* Product Image */}
                         <Box w="100px" h="100px" bg="gray.100" borderRadius="md" flexShrink={0}>
                           {item.product?.images?.[0] ? (
@@ -428,7 +432,7 @@ export function Component() {
                             </HStack>
                           </Button>
                         </VStack>
-                      </HStack>
+                      </Flex>
                     </Card.Body>
                   </Card.Root>
                 ))}
@@ -444,7 +448,7 @@ export function Component() {
 
             {/* Order Summary */}
             <Box>
-              <Card.Root position="sticky" top="80px">
+              <Card.Root position={{ base: 'static', lg: 'sticky' }} top="80px">
                 <Card.Header>
                   <Heading size="lg">Order Summary</Heading>
                 </Card.Header>

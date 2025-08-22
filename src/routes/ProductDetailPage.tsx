@@ -14,6 +14,7 @@ import {
   Badge,
   Input,
   Textarea,
+  Stack,
 } from '@chakra-ui/react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useCallback, useEffect, useState } from 'react'
@@ -368,7 +369,7 @@ export function Component() {
             <Box
               position="relative"
               w="full"
-              h="500px"
+              h={{ base: '300px', md: '450px' }}
               bg="gray.100"
               borderRadius="lg"
               overflow="hidden"
@@ -460,7 +461,7 @@ export function Component() {
             )}
 
             {/* Quantity Selector */}
-            <HStack>
+            <Stack direction={{ base: 'column', sm: 'row' }} gap={2} align="center">
               <Text fontWeight="semibold">Quantity:</Text>
               <HStack>
                 <Button size="sm" onClick={() => setQuantity(Math.max(1, quantity - 1))}>
@@ -477,7 +478,7 @@ export function Component() {
                   +
                 </Button>
               </HStack>
-            </HStack>
+            </Stack>
 
             {/* Stock Status */}
             <Badge colorPalette={inStock ? 'green' : 'red'} variant="solid">
@@ -485,13 +486,14 @@ export function Component() {
             </Badge>
 
             {/* Action Buttons */}
-            <HStack gap={4} w="full">
+            <Stack direction={{ base: 'column', sm: 'row' }} gap={3} w="full">
               <Button
                 colorPalette="brand"
                 size="lg"
                 onClick={addToCart}
                 disabled={!inStock}
                 flex="1"
+                w={{ base: 'full', sm: 'auto' }}
               >
                 <HStack gap={2}>
                   <FaShoppingCart />
@@ -503,13 +505,14 @@ export function Component() {
                 size="lg"
                 onClick={toggleWishlist}
                 colorPalette={isWishlisted ? 'red' : undefined}
+                w={{ base: 'full', sm: 'auto' }}
               >
                 <HStack gap={2}>
                   <FaHeart />
                   <span>{isWishlisted ? 'Wishlisted' : 'Wishlist'}</span>
                 </HStack>
               </Button>
-            </HStack>
+            </Stack>
 
             {/* Product Details */}
             {product.metadata && Object.keys(product.metadata).length > 0 && (

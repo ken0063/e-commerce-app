@@ -11,6 +11,7 @@ import {
   Flex,
   Card,
   Input,
+  Stack,
 } from '@chakra-ui/react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useCallback, useEffect, useState } from 'react'
@@ -253,12 +254,30 @@ export function Component() {
           <Card.Root>
             <Card.Body>
               <VStack gap={4}>
-                <HStack w="full" gap={4}>
+                {/* Mobile: condensed row with toggle */}
+                <HStack w="full" gap={2} display={{ base: 'flex', md: 'none' }}>
                   <Input
                     placeholder="Search products..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+                    onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                  />
+                  <Button colorPalette="brand" onClick={handleSearch}>
+                    Search
+                  </Button>
+                </HStack>
+
+                <Stack
+                  direction={{ base: 'column', md: 'row' }}
+                  gap={4}
+                  align={{ base: 'stretch', md: 'center' }}
+                  display={{ base: 'none', md: 'flex' }}
+                >
+                  <Input
+                    placeholder="Search products..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                   />
                   <select
                     value={selectedCategory}
@@ -282,40 +301,52 @@ export function Component() {
                     <option value="price_desc">Price: High to Low</option>
                     <option value="newest">Newest First</option>
                   </select>
-                </HStack>
+                </Stack>
 
-                <HStack w="full" gap={4}>
-                  <Input
-                    type="number"
-                    placeholder="Min price"
-                    value={priceRange.min}
-                    onChange={(e) => setPriceRange({ ...priceRange, min: e.target.value })}
-                    maxW="150px"
-                  />
-                  <Text>to</Text>
-                  <Input
-                    type="number"
-                    placeholder="Max price"
-                    value={priceRange.max}
-                    onChange={(e) => setPriceRange({ ...priceRange, max: e.target.value })}
-                    maxW="150px"
-                  />
-                  <Button colorPalette="brand" onClick={handleSearch}>
-                    <HStack gap={2}>
-                      <FaFilter /> <span>Apply Filters</span>
-                    </HStack>
-                  </Button>
-                  <Button variant="outline" onClick={clearFilters}>
-                    Clear
-                  </Button>
-                </HStack>
+                <Stack direction={{ base: 'column', md: 'row' }} gap={4} align="center">
+                  <HStack w="full" gap={4}>
+                    <Input
+                      type="number"
+                      placeholder="Min price"
+                      value={priceRange.min}
+                      onChange={(e) => setPriceRange({ ...priceRange, min: e.target.value })}
+                      maxW={{ base: 'full', md: '150px' }}
+                    />
+                    <Text display={{ base: 'none', md: 'block' }}>to</Text>
+                    <Input
+                      type="number"
+                      placeholder="Max price"
+                      value={priceRange.max}
+                      onChange={(e) => setPriceRange({ ...priceRange, max: e.target.value })}
+                      maxW={{ base: 'full', md: '150px' }}
+                    />
+                  </HStack>
+                  <HStack gap={2} w={{ base: 'full', md: 'auto' }}>
+                    <Button
+                      colorPalette="brand"
+                      onClick={handleSearch}
+                      w={{ base: 'full', md: 'auto' }}
+                    >
+                      <HStack gap={2}>
+                        <FaFilter /> <span>Apply</span>
+                      </HStack>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      onClick={clearFilters}
+                      w={{ base: 'full', md: 'auto' }}
+                    >
+                      Clear
+                    </Button>
+                  </HStack>
+                </Stack>
               </VStack>
             </Card.Body>
           </Card.Root>
 
           {/* Products Grid */}
           {loading ? (
-            <SimpleGrid columns={{ base: 1, sm: 2, md: 3, lg: 4 }} gap={6}>
+            <SimpleGrid columns={{ base: 1, sm: 2, md: 3, lg: 4, xl: 5 }} gap={4}>
               {[...Array(12)].map((_, i) => (
                 <Card.Root key={i} h="350px" />
               ))}
@@ -334,7 +365,7 @@ export function Component() {
               </Card.Body>
             </Card.Root>
           ) : (
-            <SimpleGrid columns={{ base: 1, sm: 2, md: 3, lg: 4 }} gap={6}>
+            <SimpleGrid columns={{ base: 1, sm: 2, md: 3, lg: 4, xl: 5 }} gap={4}>
               {products.map((product) => (
                 <Card.Root
                   key={product.id}
@@ -345,7 +376,7 @@ export function Component() {
                 >
                   <Box
                     position="relative"
-                    h="200px"
+                    h={{ base: '160px', md: '200px' }}
                     bg="gray.100"
                     onClick={() => navigate(`/products/${product.id}`)}
                   >
@@ -409,7 +440,7 @@ export function Component() {
 
           {/* Pagination */}
           {totalPages > 1 && (
-            <HStack justify="center" gap={2}>
+            <HStack justify="center" gap={2} wrap="wrap">
               <Button
                 variant="outline"
                 size="sm"
