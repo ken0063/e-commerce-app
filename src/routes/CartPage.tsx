@@ -316,7 +316,7 @@ export function Component() {
 
   return (
     <Box py={8}>
-      <Container maxW="container.xl">
+      <Container maxW={{ base: 'full', xl: 'container.xl' }}>
         <Heading size="2xl" mb={8}>
           Shopping Cart
         </Heading>

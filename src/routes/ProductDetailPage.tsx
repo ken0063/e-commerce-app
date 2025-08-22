@@ -362,7 +362,7 @@ export function Component() {
 
   return (
     <Box py={8}>
-      <Container maxW="container.xl">
+      <Container maxW={{ base: 'full', xl: 'container.xl' }}>
         <SimpleGrid columns={{ base: 1, md: 2 }} gap={8} mb={12}>
           {/* Image Gallery */}
           <VStack gap={4}>

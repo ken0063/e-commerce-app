@@ -22,7 +22,6 @@ import type { User } from '@supabase/supabase-js'
 import { MenuContent, MenuItem, MenuRoot, MenuTrigger } from './ui/menu'
 import { Avatar } from './ui/avatar'
 import { Badge } from './ui/badge'
-import { Toaster } from './ui/toaster'
 
 export function Layout() {
   const [user, setUser] = useState<User | null>(null)
@@ -55,14 +54,34 @@ export function Layout() {
   }, [])
 
   const loadCartItemCount = async (userId: string) => {
-    const { data, error } = await supabase
-      .from('cart_items')
-      .select('quantity', { count: 'exact' })
-      .eq('cart_id', userId)
+    try {
+      // Get the user's active cart
+      const { data: cart } = await supabase
+        .from('carts')
+        .select('id')
+        .eq('user_id', userId)
+        .eq('status', 'active')
+        .single()
 
-    if (!error && data) {
-      const total = data.reduce((sum, item) => sum + item.quantity, 0)
-      setCartItemCount(total)
+      if (!cart) {
+        setCartItemCount(0)
+        return
+      }
+
+      const { data: items, error } = await supabase
+        .from('cart_items')
+        .select('quantity')
+        .eq('cart_id', cart.id)
+
+      if (!error && items) {
+        const total = items.reduce((sum, item) => sum + (item.quantity ?? 0), 0)
+        setCartItemCount(total)
+      } else {
+        setCartItemCount(0)
+      }
+    } catch (e) {
+      console.error('Failed to load cart count', e)
+      setCartItemCount(0)
     }
   }
 
@@ -83,7 +102,7 @@ export function Layout() {
         bg="bg/80"
         backdropFilter="blur(10px)"
       >
-        <Container maxW="container.xl" py={4}>
+        <Container maxW={{ base: 'full', xl: 'container.xl' }} py={4}>
           <Flex align="center" gap={4}>
             {/* Logo */}
             <Link to="/" style={{ textDecoration: 'none' }}>
@@ -169,7 +188,10 @@ export function Layout() {
                 </Button>
               )}
 
-              <ColorModeToggleGroup />
+              {/* Show color mode buttons inline only on xl+ */}
+              <HStack display={{ base: 'none', lg: 'none', xl: 'flex' }}>
+                <ColorModeToggleGroup />
+              </HStack>
 
               {/* Mobile Menu */}
               <IconButton
@@ -287,6 +309,15 @@ export function Layout() {
                     )}
                   </HStack>
                 </Button>
+
+                {/* Appearance controls for mobile/tablet */}
+                <Separator />
+                <Box>
+                  <Text fontWeight="semibold" mb={2}>
+                    Appearance
+                  </Text>
+                  <ColorModeToggleGroup />
+                </Box>
               </Stack>
             </Drawer.Body>
           </Drawer.Content>
@@ -296,13 +327,11 @@ export function Layout() {
       {/* Main Content */}
       <Box flex="1">
         <Outlet />
-        {/* Global toaster for consistent feedback */}
-        <Toaster />
       </Box>
 
       {/* Footer */}
       <Box as="footer" bg="bg.subtle" borderTopWidth="1px" mt={16}>
-        <Container maxW="container.xl" py={8}>
+        <Container maxW={{ base: 'full', xl: 'container.xl' }} py={8}>
           <Flex direction={{ base: 'column', md: 'row' }} gap={8}>
             <Box flex="1">
               <Text fontSize="xl" fontWeight="bold" color="brand.500" mb={2}>

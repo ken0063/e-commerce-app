@@ -240,7 +240,7 @@ export function Component() {
 
   return (
     <Box py={8}>
-      <Container maxW="container.xl">
+      <Container maxW={{ base: 'full', xl: 'container.xl' }}>
         <VStack gap={8} align="stretch">
           {/* Header */}
           <Box>

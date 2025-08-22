@@ -93,7 +93,7 @@ export function HomePage() {
         position="relative"
         overflow="hidden"
       >
-        <Container maxW="container.xl">
+        <Container maxW={{ base: 'full', xl: 'container.xl' }}>
           <Flex direction={{ base: 'column', lg: 'row' }} align="center" gap={8}>
             <VStack align={{ base: 'center', lg: 'start' }} flex="1" gap={6}>
               <Heading size={{ base: '3xl', md: '4xl' }} fontWeight="bold">
@@ -137,7 +137,7 @@ export function HomePage() {
       </Box>
 
       {/* Categories Section */}
-      <Container maxW="container.xl" py={16}>
+      <Container maxW={{ base: 'full', xl: 'container.xl' }} py={16}>
         <VStack gap={8}>
           <Box textAlign="center">
             <Heading size="2xl" mb={2}>
@@ -181,7 +181,7 @@ export function HomePage() {
 
       {/* Featured Products Section */}
       <Box bg="bg.subtle" py={16}>
-        <Container maxW="container.xl">
+        <Container maxW={{ base: 'full', xl: 'container.xl' }}>
           <VStack gap={8}>
             <Box textAlign="center">
               <Heading size="2xl" mb={2}>
