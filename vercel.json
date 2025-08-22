@@ -3,7 +3,7 @@
   "outputDirectory": "dist",
   "installCommand": "pnpm install",
   "framework": "vite",
-  "routes": [{ "handle": "filesystem" }, { "src": "/.*", "dest": "/index.html" }],
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }],
   "headers": [
     {
       "source": "/assets/(.*)",
@@ -15,7 +15,7 @@
       ]
     },
     {
-      "source": "/(.*)",
+      "source": "//(.*)",
       "headers": [
         {
           "key": "X-Content-Type-Options",
